@@ -1,0 +1,55 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv*/
+env*/
+.testenv/
+.testenv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# PyCharm / VSCode settings
+.idea/
+.vscode/
+
+# dotenv / secrets
+.env
+.env.*
+
+# API keys / credentials
+api_keys/
+
+# FAISS / vector index files
+*.faiss
+vector_index/index_store.*
+vector_index/id_map.json
+
+# Logs, cache, and temp data
+*.log
+logs/
+memory/cache/data/*.jsonl
+memory/cache/data/*.txt
+memory/summary/saved/
+memory/logs/exports/
+memory/tests/
+temp/
+*.tmp
+*.bak
+
+# Dependency analysis
+tools/dependency_tools/__pycache__/
+tools/dependency_tools/*.png
+tools/dependency_tools/dependency_graphs/
+
+# Results and visualizations
+*.csv
+*.json
+*.png
+
+# OS / system files
+.DS_Store
+Thumbs.db

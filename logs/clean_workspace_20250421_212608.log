@@ -1,0 +1,65 @@
+[DIR] .\.pytest_cache
+[DIR] .\venv310
+[DIR] .\__pycache__
+[DIR] .\ai_nodes\__pycache__
+[DIR] .\archive\過去\__pycache__
+[DIR] .\archive\過去\AIMO BACKUP\ai_nodes\__pycache__
+[DIR] .\archive\過去\AIMO BACKUP\core\__pycache__
+[FILE] .\archive\過去\AIMO BACKUP\logs\memory.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\command\20250414_200057_command.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\command\20250414_200626_command.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\command\20250414_201104_command.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\command\20250414_202114_command.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\command\20250414_221506_command.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\command\20250414_221555_command.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\command\20250414_221626_command.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\command\20250414_221628_command.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\dispatcher\20250414_200057_dispatcher.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\dispatcher\20250414_200626_dispatcher.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\dispatcher\20250414_201104_dispatcher.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\dispatcher\20250414_202114_dispatcher.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\dispatcher\20250414_221506_dispatcher.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\dispatcher\20250414_221555_dispatcher.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\dispatcher\20250414_221626_dispatcher.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\dispatcher\20250414_221628_dispatcher.log
+[FILE] .\archive\過去\AIMO BACKUP\logs\error\20250414_200035_error.log
+[DIR] .\archive\過去\aimo_utils\__pycache__
+[DIR] .\archive\過去\ai_nodes\__pycache__
+[DIR] .\archive\過去\core\__pycache__
+[DIR] .\core\__pycache__
+[DIR] .\core\utils\__pycache__
+[FILE] .\logs\aimo.log
+[FILE] .\logs\env_autogen.log
+[FILE] .\logs\integration_test.log
+[FILE] .\logs\conv_filter\20250419.log
+[FILE] .\logs\dispatcher\20250418.log
+[FILE] .\logs\dispatcher\20250419.log
+[FILE] .\logs\dispatcher\20250420.log
+[FILE] .\logs\imagegen\20250419.log
+[FILE] .\logs\init_generator\20250419.log
+[FILE] .\logs\log\20250419.log
+[FILE] .\logs\log_importer\20250419.log
+[FILE] .\logs\log_importer\20250421.log
+[FILE] .\logs\markdown_exporter\20250419.log
+[FILE] .\logs\mixtral\20250419.log
+[FILE] .\logs\mixtral\20250420.log
+[FILE] .\logs\route\20250419.log
+[FILE] .\logs\route\20250420.log
+[FILE] .\logs\summary\20250419.log
+[FILE] .\logs\system\20250418.log
+[FILE] .\logs\system\20250419.log
+[FILE] .\logs\system\20250420.log
+[FILE] .\logs\system\20250421.log
+[FILE] .\logs\voice\20250419.log
+[FILE] .\logs\voice\20250420.log
+[FILE] .\logs\zephyr\20250419.log
+[DIR] .\memory\__pycache__
+[DIR] .\memory\cache\__pycache__
+[DIR] .\memory\context\__pycache__
+[DIR] .\memory\logs\__pycache__
+[DIR] .\memory\summary\__pycache__
+[DIR] .\scripts\__pycache__
+[DIR] .\scripts\checks\__pycache__
+[DIR] .\testenv\Lib\site-packages
+[DIR] .\tests\__pycache__
+[DIR] .\vector_index\__pycache__

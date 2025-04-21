@@ -1,0 +1,6 @@
+openai_key.txt: OK
+claude_key.txt: OK
+mixtral_key.txt: OK
+gemini_key.txt: OK
+imagegen_key.txt: OK
+zephyr_key.txt: MISSING

@@ -1,0 +1,31 @@
+cd C:\Users\hmina\Documents\AIMO
+python launch.py
+
+
+
+cd C:\Users\hmina\Documents\AIMO
+python scripts/test_cache_manager.py
+
+
+
+
+cd C:\Users\hmina\Documents\AIMO
+削除せずに確認だけしたい場合：
+b
+python tools/clean/clean_workspace.py --dry-run --safe-mode
+
+本番実行＋ログ保存：
+
+python tools/clean/clean_workspace.py --keep-logs
+ログなしで実行したい場合：
+bash
+コピーする
+編集する
+python tools/clean/clean_workspace.py --no-log
+
+
+
+cd C:\Users\hmina\Documents\AIMO
+venv310\Scripts\activate
+
+

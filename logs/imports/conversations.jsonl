@@ -1,0 +1,3 @@
+{"id": "abc123", "role": "user", "content": "これはユーザーの発言です。"}
+{"id": "abc123", "role": "assistant", "content": "これはAIの応答です。"}
+{"id": "abc124", "role": "user", "content": "別IDのテスト発言です。"}

@@ -1,0 +1,21 @@
+# 音声・テキスト系
+openai-whisper==20230918
+coqui-tts==0.25.3
+torch>=2.0.0
+torchaudio>=2.0.0
+
+# 音声合成・補助
+numpy
+scipy
+soundfile
+pydub
+
+# 共通処理
+requests
+sentence-transformers
+faiss-cpu
+transformers
+diffusers
+Pillow
+
+python-dotenv
