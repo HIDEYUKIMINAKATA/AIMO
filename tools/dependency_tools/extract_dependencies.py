@@ -57,3 +57,4 @@ def extract_dependencies(root_dir=None, output_path=None, exclude_dirs=None):
 if __name__ == "__main__":
     extract_dependencies()
 "# dummy comment for CI trigger" 
+"# dummy comment for CI trigger" 
