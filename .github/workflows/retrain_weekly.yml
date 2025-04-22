@@ -1,0 +1,36 @@
+name: Weekly Model Retrain
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # 毎週月曜 9:00 UTC（日本時間18:00）
+  workflow_dispatch:     # 手動実行も可能
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_core.txt
+
+      - name: Run training pipeline
+        run: |
+          python mlflow/train.py
+          python mlflow/evaluate.py
+
+      - name: Commit updated model metadata
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add models/retrained model_retrained.json || echo "No changes"
+          git commit -m "🤖 Weekly model retrain auto-commit" || echo "No changes to commit"
+          git push || echo "No changes to push"
