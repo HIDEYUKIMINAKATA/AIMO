@@ -1,12 +1,21 @@
+
 import os
 import csv
 import json
+import sys
 from pathlib import Path
+
+# ✅ AIMOルート補完
+current_file = Path(__file__).resolve()
+aimo_root = current_file.parents[2]
+sys.path.insert(0, str(aimo_root))
 
 try:
     import networkx as nx
 except ImportError:
     raise ImportError("networkx is required. Install via 'pip install networkx'")
+
+from core.utils.logger import log_event
 
 def load_dependencies(input_csv):
     edges = []
@@ -15,7 +24,6 @@ def load_dependencies(input_csv):
         for row in reader:
             src_file = row['Source File']
             imp_mod = row['Imported Module']
-            # モジュール名に変換（拡張子除去 + セパレータ置換）
             src_module = src_file[:-3].replace(os.sep, '.')
             edges.append((src_module, imp_mod))
     return edges
@@ -25,21 +33,22 @@ def analyze_integrity(edges):
     for src, tgt in edges:
         G.add_edge(src, tgt)
 
-    # サイクル検出
     cycles = list(nx.simple_cycles(G))
-
-    # モジュール集合
     all_src = {src for src, _ in edges}
     all_tgt = {tgt for _, tgt in edges}
 
-    # 依存されないモジュール（in-degree=0）
     orphans = [n for n in all_src if G.in_degree(n) == 0]
-
-    # 何もimportしていないモジュール（out-degree=0）
     leaves = [n for n in all_src if G.out_degree(n) == 0]
-
-    # missing: imported but no source definition
     missing = sorted(list(all_tgt - all_src))
+
+    score = 1.0
+    if cycles:
+        score -= 0.3
+    if missing:
+        score -= 0.2
+    if len(orphans) > 3:
+        score -= 0.1
+    score = max(0.0, round(score, 3))
 
     return {
         'cycle_count': len(cycles),
@@ -49,25 +58,30 @@ def analyze_integrity(edges):
         'leaf_count': len(leaves),
         'leaves': sorted(leaves),
         'missing_count': len(missing),
-        'missing': missing
+        'missing': missing,
+        'health_score': score
     }
+
+def check_violation(report):
+    return report['cycle_count'] > 0 or report['missing_count'] > 0
 
 if __name__ == '__main__':
     base = Path(__file__).resolve().parents[2]
     input_csv = base / 'tools' / 'dependency_tools' / 'dependency_map.csv'
     output_json = base / 'tools' / 'dependency_tools' / 'dependency_integrity_report.json'
 
-    print("=== Checking Dependency Integrity ===")
+    log_event("=== Checking Dependency Integrity ===", "INFO")
     edges = load_dependencies(input_csv)
     report = analyze_integrity(edges)
 
-    # レポート保存
     with open(output_json, 'w', encoding='utf-8') as f:
         json.dump(report, f, indent=2, ensure_ascii=False)
 
-    # サマリー出力
-    print(f"[SUCCESS] Report saved to: {output_json}")
-    print(f"- Cycles detected: {report['cycle_count']}")
-    print(f"- Orphans (no inbound): {report['orphan_count']}")
-    print(f"- Leaves (no outbound): {report['leaf_count']}")
-    print(f"- Missing modules: {report['missing_count']}")
+    log_event(f"Report saved to: {output_json}", "SUCCESS")
+    log_event(f"Cycles: {report['cycle_count']}, Missing: {report['missing_count']}, Score: {report['health_score']}", "INFO")
+
+    if check_violation(report):
+        log_event("Dependency integrity check failed. CI will stop.", "ERROR")
+        sys.exit(1)
+    else:
+        log_event("Dependency integrity check passed.", "SUCCESS")
