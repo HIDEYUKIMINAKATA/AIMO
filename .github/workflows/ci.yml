@@ -1,0 +1,34 @@
+name: Dependency Integrity Check
+
+on:
+  push:
+    paths:
+      - 'core/**'
+      - 'tools/dependency_tools/**'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    paths:
+      - 'core/**'
+      - 'tools/dependency_tools/**'
+      - '.github/workflows/ci.yml'
+
+jobs:
+  dependency-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 リポジトリを取得
+        uses: actions/checkout@v3
+
+      - name: 🐍 Python 3.10 セットアップ
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 📦 依存パッケージインストール
+        run: |
+          pip install -r requirements.txt
+          pip install networkx pandas
+
+      - name: 🔍 依存構造チェック実行
+        run: python tools/dependency_tools/run_dependency_checks.py
