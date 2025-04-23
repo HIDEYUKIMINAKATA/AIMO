@@ -1,32 +1,44 @@
-
+#!/usr/bin/env python3
 import sys
-import os
 import subprocess
 from pathlib import Path
 
-# ✅ AIMOルートパスを動的に追加
-current_dir = Path(__file__).resolve()
-aimo_root = current_dir.parents[2]
-sys.path.insert(0, str(aimo_root))
+# ── AIMO ルート検出・設定 ─────────────────────────────────────────
+from core.utils.path_utils import find_aimo_root
+root = Path(find_aimo_root())
+sys.path.insert(0, str(root))
 
 from core.utils.logger import log_event
 
-def run_step(name, cmd):
-    log_event(f"▶ Running: {name}", "INFO")
-    result = subprocess.run(cmd, shell=True)
-    if result.returncode != 0:
-        log_event(f"[ERROR] Step failed: {name}", "ERROR")
+def run_step(name: str, cmd: str):
+    log_event("INFO", f"▶ Running: {name}")
+    try:
+        subprocess.run(cmd, shell=True, check=True)
+        log_event("SUCCESS", f"Step succeeded: {name}")
+    except subprocess.CalledProcessError:
+        log_event("ERROR", f"Step failed: {name}")
         sys.exit(1)
-    log_event(f"[SUCCESS] Step succeeded: {name}", "SUCCESS")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    log_event("INFO", "=== AIMO Dependency Check Sequence Start ===")
+
+    # 各ステップを順に実行
     steps = [
-        ("Extract Dependencies", "python tools/dependency_tools/extract_dependencies.py --root . --output tools/dependency_tools/dependency_map.csv --exclude venv,__pycache__,tests --log-warn"),
-        ("Reverse Dependencies", "python tools/dependency_tools/reverse_dependencies.py"),
-        ("Check Dependency Integrity", "python tools/dependency_tools/check_dependency_integrity.py"),
+        (
+            "Extract Dependencies",
+            f"python {root / 'tools' / 'dependency_tools' / 'extract_dependencies.py'}"
+        ),
+        (
+            "Reverse Dependencies",
+            f"python {root / 'tools' / 'dependency_tools' / 'reverse_dependencies.py'}"
+        ),
+        (
+            "Check Dependency Integrity",
+            f"python {root / 'tools' / 'dependency_tools' / 'check_dependency_integrity.py'}"
+        ),
     ]
 
-    log_event("=== AIMO Dependency Check Sequence Start ===", "INFO")
     for name, cmd in steps:
         run_step(name, cmd)
-    log_event("=== All checks completed successfully ===", "SUCCESS")
+
+    log_event("SUCCESS", "=== All checks completed successfully ===")

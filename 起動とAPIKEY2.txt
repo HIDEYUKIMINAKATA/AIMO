@@ -1,11 +1,13 @@
 cd C:\Users\hmina\Documents\AIMO
-python launch.py
+python /dependency_tools/run_dependency_checks.py
 
 
 
 cd C:\Users\hmina\Documents\AIMO
-python scripts/test_cache_manager.py
+python tools/dependency_tools/run_dependency_checks.pycd C:\Users\hmina\Documents\AIMO
+python tools/dependency_tools/run_dependency_checks.py
 
+python tools/dependency_tools/run_dependency_checks.py
 
 
 
@@ -28,4 +30,9 @@ python tools/clean/clean_workspace.py --no-log
 cd C:\Users\hmina\Documents\AIMO
 venv310\Scripts\activate
 
+
+echo "# dummy comment for CI trigger" >> tools/dependency_tools/extract_dependencies.py
+git add tools/dependency_tools/extract_dependencies.py
+git commit -m "🚦 CI Test: trigger dependency check"
+git push
 

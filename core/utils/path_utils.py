@@ -1,20 +1,20 @@
 import os
+from pathlib import Path
 
-def find_aimo_root() -> str:
+def find_aimo_root():
     """
-    AIMOプロジェクトのルートディレクトリを自動検出する。
-    現在のスクリプト位置から親ディレクトリを順に辿り、
-    AIMOルートに含まれる marker ファイル/ディレクトリを基準に判定する。
+    AIMO プロジェクトのルートを探します。
+    - GitHub Actions 環境（CI）: core と tools ディレクトリの存在のみチェック
+    - ローカル開発環境       : core, tools, launch.py, api_keys を確認
     """
-    current = os.path.abspath(os.path.dirname(__file__))
-
-    while True:
-        # AIMOルートと判断できる目印（必ず存在する構成要素）
-        candidate = os.path.join(current, "core")
-        if os.path.isdir(candidate):
-            return current
-
-        parent = os.path.dirname(current)
-        if parent == current:
-            raise RuntimeError("AIMOルートが検出できませんでした。構成を確認してください。")
-        current = parent
+    current = Path(__file__).resolve()
+    for parent in current.parents:
+        if (parent / "core").is_dir() and (parent / "tools").is_dir():
+            if os.getenv("GITHUB_ACTIONS") == "true":
+                return str(parent)
+            if (parent / "launch.py").exists() and (parent / "api_keys").is_dir():
+                return str(parent)
+            raise RuntimeError(
+                "[AIMOルート特定失敗] ローカル実行時は launch.py と api_keys/ の存在を確認してください。"
+            )
+    raise RuntimeError("[AIMOルート特定失敗] core/ または tools/ ディレクトリが見つかりません。プロジェクト構成を確認してください。")

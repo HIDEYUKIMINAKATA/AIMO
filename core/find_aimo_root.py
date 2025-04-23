@@ -1,23 +1,21 @@
 from pathlib import Path
 
-try:
-    from core.logger import log_event
-except ImportError:
-    def log_event(level, message, category=None): print(f"[{level}] {message}")
-
 def find_aimo_root() -> str:
     """
-    AIMOプロジェクトのルートパスを特定する。
-    判定条件: launch.py と api_keys フォルダが両方存在するディレクトリ
+    AIMOプロジェクトのルートディレクトリ（launch.pyがある場所）を探し、そのパスを返す。
+    環境がGitHub Actionsなどでパスを特定できない場合、例外に詳細を含めて通知する。
     """
-    here = Path(__file__).resolve()
-    for parent in here.parents:
-        launch = parent / "launch.py"
-        keys = parent / "api_keys"
-        if launch.is_file() and keys.is_dir():
-            log_event("[INFO]", f"AIMOルート特定成功: {parent}", category="core")
+    current_path = Path(__file__).resolve()
+    for parent in current_path.parents:
+        if (parent / "launch.py").exists():
             return str(parent)
-    
-    msg = "AIMOルートが特定できません。launch.py と api_keys を確認してください。"
-    log_event("[ERROR]", msg, category="core")
+    msg = (
+        "[ERROR] AIMOルートディレクトリが見つかりません。\n"
+        "このエラーは通常、`launch.py` が存在しない場所でスクリプトを実行しているか、"
+        "`find_aimo_root()` をCI環境で使用している場合に発生します。\n"
+        "対処法:\n"
+        "1. `launch.py` が正しい場所にあるか確認してください。\n"
+        "2. CIなどで `launch.py` が無い場合、`find_aimo_root()` を使わずルートパスを環境変数などで明示指定してください。\n"
+        f"現在の探索開始パス: {current_path}"
+    )
     raise RuntimeError(msg)
