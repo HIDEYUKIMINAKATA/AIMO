@@ -20,8 +20,7 @@ jobs:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
 
-      - name: 🛠 Create dummy api_keys directory
-        # CI 環境では必須の空ディレクトリを先行作成
+      - name: 🛠 Prepare API keys directory
         run: mkdir -p api_keys
 
       - name: 🐍 Set up Python 3.10
@@ -35,6 +34,4 @@ jobs:
           pip install networkx pandas
 
       - name: 🔍 Run dependency checks
-        run: |
-          echo "=== Running AIMO Dependency Checks ==="
-          python tools/dependency_tools/run_dependency_checks.py
+        run: python tools/dependency_tools/run_dependency_checks.py
